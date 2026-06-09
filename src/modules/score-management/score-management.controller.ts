@@ -26,11 +26,15 @@ import {
     ApiBody,
     ApiParam,
 } from '@nestjs/swagger';
+import { DataSource } from 'typeorm';
 
 @ApiTags('Scores')
 @Controller('scores')
 export class ScoreManagementController {
-    constructor(private readonly scoreService: ScoreService) {}
+    constructor(
+        private readonly scoreService: ScoreService,
+        private readonly dataSource: DataSource,
+    ) {}
 
     /**
      * Handles CSV file upload and triggers the import process
@@ -124,5 +128,14 @@ export class ScoreManagementController {
             );
         }
         return result;
+    }
+
+    @Get('reports/refresh-view')
+    async refreshView() {
+        // Gọi trực tiếp từ trong server, bỏ qua mọi rào cản SSL của mạng local
+        await this.dataSource.query(
+            'REFRESH MATERIALIZED VIEW student_report_view',
+        );
+        return { message: 'View refreshed' };
     }
 }
