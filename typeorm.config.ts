@@ -17,7 +17,7 @@ const dataSourceOptions: DataSourceOptions = {
 
     entities: ['dist/**/*.entity.js'],
     migrations: ['dist/migrations/*.js'],
-    synchronize: true,
+    synchronize: false,
 };
 
 export default new DataSource(dataSourceOptions);
