@@ -129,13 +129,4 @@ export class ScoreManagementController {
         }
         return result;
     }
-
-    @Get('reports/refresh-view')
-    async refreshView() {
-        // Gọi trực tiếp từ trong server, bỏ qua mọi rào cản SSL của mạng local
-        await this.dataSource.query(
-            'REFRESH MATERIALIZED VIEW student_report_view',
-        );
-        return { message: 'View refreshed' };
-    }
 }
